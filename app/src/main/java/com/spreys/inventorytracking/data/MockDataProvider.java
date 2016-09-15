@@ -10,9 +10,9 @@ import java.util.List;
 public class MockDataProvider {
     public static List<Product> GetMockData() {
         ArrayList<Product> products = new ArrayList<>();
-        products.add(new Product("Headphones", 10, 59.99));
-        products.add(new Product("iPad mini", 15, 99.99));
-        products.add(new Product("iPhone 7", 3, 1100));
+        products.add(new Product("Headphones", "test@test.com", 10, 59.99));
+        products.add(new Product("iPad mini", "test@test.com", 15, 99.99));
+        products.add(new Product("iPhone 7", "test@test.com", 3, 1100));
         return products;
     }
 }

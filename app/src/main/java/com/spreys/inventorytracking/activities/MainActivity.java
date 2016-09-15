@@ -22,6 +22,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.spreys.inventorytracking.activities.DetailsActivity.KEY_PRODUCT;
+
 public class MainActivity extends AppCompatActivity {
 
     @BindView(R.id.activity_main_recycler_view)
@@ -77,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onProductSelected(int itemPosition) {
             Intent intent = new Intent(context, DetailsActivity.class);
-//            intent.putExtra
+            intent.putExtra(KEY_PRODUCT, products.get(itemPosition));
             startActivity(intent);
         }
 

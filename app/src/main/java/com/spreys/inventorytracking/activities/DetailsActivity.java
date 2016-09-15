@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
 import com.spreys.inventorytracking.R;
+import com.spreys.inventorytracking.data.Product;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -16,6 +17,8 @@ import butterknife.OnClick;
  */
 
 public class DetailsActivity extends AppCompatActivity {
+    public static final String KEY_PRODUCT = "key_product";
+
     @BindView(R.id.details_title)
     TextView titleView;
 
@@ -34,6 +37,13 @@ public class DetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_details);
 
         ButterKnife.bind(this);
+
+        Product product = getIntent().getExtras().getParcelable(KEY_PRODUCT);
+
+        titleView.setText(product.getName());
+        quantityView.setText(product.getQuantityDescription());
+        priceView.setText(product.getPriceDescription());
+        emailView.setText(product.getSupplierEmailDescription());
     }
 
     @OnClick(R.id.details_track_sale)

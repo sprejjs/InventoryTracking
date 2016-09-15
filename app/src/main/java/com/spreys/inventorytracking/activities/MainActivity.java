@@ -1,6 +1,7 @@
 package com.spreys.inventorytracking.activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -73,6 +74,13 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
+        @Override
+        public void onProductSelected(int itemPosition) {
+            Intent intent = new Intent(context, DetailsActivity.class);
+//            intent.putExtra
+            startActivity(intent);
+        }
+
         class ViewHolder extends RecyclerView.ViewHolder {
             IViewHolderClickListener clickListener;
 
@@ -88,6 +96,11 @@ public class MainActivity extends AppCompatActivity {
             @OnClick(R.id.product_item_track_sale_button)
             public void sellItem() {
                 clickListener.onTrackSale(getAdapterPosition());
+            }
+
+            @OnClick(R.id.product_item_frame)
+            public void selectProduct() {
+                clickListener.onProductSelected(getAdapterPosition());
             }
 
             public ViewHolder(View view, IViewHolderClickListener clickListener) {

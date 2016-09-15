@@ -2,4 +2,7 @@
     <string name="app_name">InventoryTracking</string>
     <string name="activity_main_add_product">Add a new product</string>
     <string name="btn_track_sale">1 item sold</string>
+    <string name="btn_track_shipment">1 item arrived</string>
+    <string name="btn_order_more">Order more from the supplier</string>
+    <string name="btn_delete_product">Delete product</string>
 </resources>

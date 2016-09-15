@@ -1,4 +1,4 @@
-package com.spreys.inventorytracking;
+package com.spreys.inventorytracking.activities;
 
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.spreys.inventorytracking.IViewHolderClickListener;
+import com.spreys.inventorytracking.R;
 import com.spreys.inventorytracking.data.MockDataProvider;
 import com.spreys.inventorytracking.data.Product;
 
@@ -35,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setAdapter(new ProductsAdapter(MockDataProvider.GetMockData(), this));
     }
 
-    class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHolder> implements IViewHolderClickListener{
+    class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHolder> implements IViewHolderClickListener {
         private List<Product> products;
         private Context context;
 

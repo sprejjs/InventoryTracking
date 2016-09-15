@@ -26,4 +26,12 @@ public class Product {
     public double getPrice() {
         return this.price;
     }
+
+    public String getQuantityDescription() {
+        return "Quantity: " + this.quantity;
+    }
+
+    public String getPriceDescription() {
+        return "Price: $" + this.price;
+    }
 }

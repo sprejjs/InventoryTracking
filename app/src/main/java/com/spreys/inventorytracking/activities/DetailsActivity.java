@@ -19,6 +19,8 @@ import butterknife.OnClick;
 public class DetailsActivity extends AppCompatActivity {
     public static final String KEY_PRODUCT = "key_product";
 
+    private Product product;
+
     @BindView(R.id.details_title)
     TextView titleView;
 
@@ -38,8 +40,11 @@ public class DetailsActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
-        Product product = getIntent().getExtras().getParcelable(KEY_PRODUCT);
+        this.product = getIntent().getExtras().getParcelable(KEY_PRODUCT);
+        updateProductDetails();
+    }
 
+    private void updateProductDetails() {
         titleView.setText(product.getName());
         quantityView.setText(product.getQuantityDescription());
         priceView.setText(product.getPriceDescription());
@@ -48,12 +53,14 @@ public class DetailsActivity extends AppCompatActivity {
 
     @OnClick(R.id.details_track_sale)
     public void onTrackSale() {
-
+        product.sellItem();
+        updateProductDetails();
     }
 
     @OnClick(R.id.details_track_shipment)
     public void onTrackShipment() {
-
+        product.retrieveItem();
+        updateProductDetails();
     }
 
     @OnClick(R.id.details_delete)

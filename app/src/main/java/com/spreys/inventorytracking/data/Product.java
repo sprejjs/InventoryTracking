@@ -83,4 +83,8 @@ public class Product implements Parcelable {
         this.quantity = in.readInt();
         this.price = in.readDouble();
     }
+
+    public void retrieveItem() {
+        quantity ++;
+    }
 }

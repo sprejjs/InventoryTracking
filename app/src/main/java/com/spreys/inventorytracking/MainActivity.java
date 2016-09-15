@@ -17,6 +17,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -34,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setAdapter(new ProductsAdapter(MockDataProvider.GetMockData(), this));
     }
 
-    class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHolder> {
+    class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHolder> implements IViewHolderClickListener{
         private List<Product> products;
         private Context context;
 
@@ -43,12 +44,13 @@ public class MainActivity extends AppCompatActivity {
             this.context = context;
         }
 
-
-        @Override public ProductsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            return new ViewHolder(LayoutInflater.from(context).inflate(R.layout.product_item, parent, false));
+        @Override
+        public ProductsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            return new ViewHolder(LayoutInflater.from(context).inflate(R.layout.product_item, parent, false), this);
         }
 
-        @Override public void onBindViewHolder(ProductsAdapter.ViewHolder holder, int position) {
+        @Override
+        public void onBindViewHolder(ProductsAdapter.ViewHolder holder, int position) {
             Product product = products.get(position);
 
             holder.title.setText(product.getName());
@@ -56,11 +58,22 @@ public class MainActivity extends AppCompatActivity {
             holder.price.setText(product.getPriceDescription());
         }
 
-        @Override public int getItemCount() {
+        @Override
+        public int getItemCount() {
             return products.size();
         }
 
+        @Override
+        public void onTrackSale(int itemPosition) {
+            Product soldProduct = products.get(itemPosition);
+            if (soldProduct.sellItem()) {
+                notifyItemChanged(itemPosition);
+            }
+        }
+
         class ViewHolder extends RecyclerView.ViewHolder {
+            IViewHolderClickListener clickListener;
+
             @BindView(R.id.product_item_title)
             public TextView title;
 
@@ -70,8 +83,14 @@ public class MainActivity extends AppCompatActivity {
             @BindView(R.id.product_item_quantity)
             public TextView quantity;
 
-            public ViewHolder(View view) {
+            @OnClick(R.id.product_item_track_sale_button)
+            public void sellItem() {
+                clickListener.onTrackSale(getAdapterPosition());
+            }
+
+            public ViewHolder(View view, IViewHolderClickListener clickListener) {
                 super(view);
+                this.clickListener = clickListener;
                 ButterKnife.bind(this, view);
             }
         }

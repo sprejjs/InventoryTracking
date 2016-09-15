@@ -34,4 +34,12 @@ public class Product {
     public String getPriceDescription() {
         return "Price: $" + this.price;
     }
+
+    public boolean sellItem() {
+        if (quantity > 0) {
+            quantity--;
+            return true;
+        }
+        return false;
+    }
 }

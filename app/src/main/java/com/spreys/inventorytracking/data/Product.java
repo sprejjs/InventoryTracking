@@ -51,6 +51,10 @@ public class Product implements Parcelable {
         return this.price;
     }
 
+    public String getEmail() {
+        return this.supplierEmail;
+    }
+
     public String getSupplierEmailDescription() {
         return "Email: " + supplierEmail;
     }

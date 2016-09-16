@@ -1,5 +1,7 @@
 package com.spreys.inventorytracking.activities;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -71,5 +73,13 @@ public class DetailsActivity extends AppCompatActivity {
     @OnClick(R.id.details_delete)
     public void onDeleteProduct() {
 
+    }
+
+    @OnClick(R.id.details_order)
+    public void onOrderItems() {
+        Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
+                "mailto", product.getEmail(), null));
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Order request for " + product.getName());
+        startActivity(Intent.createChooser(emailIntent, "Send email..."));
     }
 }

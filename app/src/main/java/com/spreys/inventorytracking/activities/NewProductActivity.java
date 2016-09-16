@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.spreys.inventorytracking.R;
+import com.spreys.inventorytracking.data.InventoryDbHelper;
 import com.spreys.inventorytracking.data.Product;
 
 import java.io.IOException;
@@ -70,6 +71,9 @@ public class NewProductActivity extends AppCompatActivity {
         String email = emailView.getText().toString();
 
         Product product = new Product(name, email, quantity, price, selectedImage);
+
+        InventoryDbHelper dbHelper = new InventoryDbHelper(this);
+        dbHelper.saveNewProduct(product);
 
         finish();
     }

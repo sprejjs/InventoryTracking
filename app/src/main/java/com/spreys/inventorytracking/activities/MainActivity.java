@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.spreys.inventorytracking.IViewHolderClickListener;
 import com.spreys.inventorytracking.R;
+import com.spreys.inventorytracking.data.InventoryDbHelper;
 import com.spreys.inventorytracking.data.MockDataProvider;
 import com.spreys.inventorytracking.data.Product;
 
@@ -36,14 +37,27 @@ public class MainActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
+        readDataFromDb();
+
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(new ProductsAdapter(MockDataProvider.GetMockData(), this));
     }
 
     @OnClick(R.id.activity_main_add_product_button)
     public void addProduct() {
         Intent intent = new Intent(this, NewProductActivity.class);
         startActivity(intent);
+    }
+
+    private void readDataFromDb() {
+        InventoryDbHelper dbHelper = new InventoryDbHelper(this);
+        List<Product> products = dbHelper.getProducts();
+        recyclerView.setAdapter(new ProductsAdapter(products, this));
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        readDataFromDb();
     }
 
     class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHolder> implements IViewHolderClickListener {
@@ -86,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
         public void onProductSelected(int itemPosition) {
             Intent intent = new Intent(context, DetailsActivity.class);
             intent.putExtra(KEY_PRODUCT, products.get(itemPosition));
-            startActivity(intent);
+            startActivityForResult(intent, 0);
         }
 
         class ViewHolder extends RecyclerView.ViewHolder {

@@ -20,11 +20,15 @@ public class Product implements Parcelable {
     private final String image;
 
     public Product(String name, String supplierEmail, int quantity, double price, Bitmap image) {
+        this(name, supplierEmail, quantity, price, bitMapToString(image));
+    }
+
+    public Product(String name, String supplierEmail, int quantity, double price, String image) {
         this.name = name;
         this.supplierEmail = supplierEmail;
         this.quantity = quantity;
         this.price = price;
-        this.image = bitMapToString(image);
+        this.image = image;
     }
 
     public static final Creator<Product> CREATOR = new Creator<Product>() {
@@ -71,6 +75,10 @@ public class Product implements Parcelable {
         return stringToBitMap(image);
     }
 
+    public String getImageAsString() {
+        return image;
+    }
+
     public boolean sellItem() {
         if (quantity > 0) {
             quantity--;
@@ -105,14 +113,14 @@ public class Product implements Parcelable {
         quantity ++;
     }
 
-    private String bitMapToString(Bitmap bitmap) {
+    private static String bitMapToString(Bitmap bitmap) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
         byte[] b = baos.toByteArray();
         return Base64.encodeToString(b, Base64.DEFAULT);
     }
 
-    private Bitmap stringToBitMap(String encodedString) {
+    private static Bitmap stringToBitMap(String encodedString) {
         try {
             byte[] encodeByte = Base64.decode(encodedString, Base64.DEFAULT);
             Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0,

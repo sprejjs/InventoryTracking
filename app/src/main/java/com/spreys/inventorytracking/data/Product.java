@@ -13,22 +13,28 @@ import java.io.ByteArrayOutputStream;
  */
 
 public class Product implements Parcelable {
+    private int id;
     private final String name;
     private final String supplierEmail;
     private int quantity;
     private final double price;
     private final String image;
 
-    public Product(String name, String supplierEmail, int quantity, double price, Bitmap image) {
-        this(name, supplierEmail, quantity, price, bitMapToString(image));
+    public Product(int id, String name, String supplierEmail, int quantity, double price, Bitmap image) {
+        this(id, name, supplierEmail, quantity, price, bitMapToString(image));
     }
 
-    public Product(String name, String supplierEmail, int quantity, double price, String image) {
+    public Product(int id, String name, String supplierEmail, int quantity, double price, String image) {
+        this.id = id;
         this.name = name;
         this.supplierEmail = supplierEmail;
         this.quantity = quantity;
         this.price = price;
         this.image = image;
+    }
+
+    public int getId() {
+        return this.id;
     }
 
     public static final Creator<Product> CREATOR = new Creator<Product>() {
@@ -94,6 +100,7 @@ public class Product implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(id);
         parcel.writeString(name);
         parcel.writeString(supplierEmail);
         parcel.writeInt(quantity);
@@ -102,6 +109,7 @@ public class Product implements Parcelable {
     }
 
     private Product(Parcel in) {
+        this.id = in.readInt();
         this.name = in.readString();
         this.supplierEmail = in.readString();
         this.quantity = in.readInt();

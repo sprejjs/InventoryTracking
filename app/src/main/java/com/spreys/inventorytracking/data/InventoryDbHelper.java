@@ -49,6 +49,24 @@ public class InventoryDbHelper extends SQLiteOpenHelper {
         //so no upgrade is required
     }
 
+    public int updateProduct(Product product) {
+        SQLiteDatabase db = getReadableDatabase();
+
+        // New value for one column
+        ContentValues values = new ContentValues();
+        values.put(InventoryContract.ProductEntry.COLUMN_QUANTITY, product.getQuantity());
+
+        // Which row to update, based on the title
+        String selection = InventoryContract.ProductEntry._ID + " = ?";
+        String[] selectionArgs = { String.valueOf(product.getId()) };
+
+        return db.update(
+                InventoryContract.ProductEntry.TABLE_NAME,
+                values,
+                selection,
+                selectionArgs);
+    }
+
     public List<Product> getProducts() {
         SQLiteDatabase db = getReadableDatabase();
 
@@ -66,13 +84,14 @@ public class InventoryDbHelper extends SQLiteOpenHelper {
         ArrayList<Product> products = new ArrayList<>();
 
         while (cursor.moveToNext()) {
+            int id = cursor.getInt(cursor.getColumnIndex(InventoryContract.ProductEntry._ID));
             String name = cursor.getString(cursor.getColumnIndex(InventoryContract.ProductEntry.COLUMN_NAME));
             String email = cursor.getString(cursor.getColumnIndex(InventoryContract.ProductEntry.COLUMN_EMAIL));
             int quantity = cursor.getInt(cursor.getColumnIndex(InventoryContract.ProductEntry.COLUMN_QUANTITY));
             double price = cursor.getDouble(cursor.getColumnIndex(InventoryContract.ProductEntry.COLUMN_PRICE));
             String image = cursor.getString(cursor.getColumnIndex(InventoryContract.ProductEntry.COLUMN_IMAGE));
 
-            products.add(new Product(name, email, quantity, price, image));
+            products.add(new Product(id, name, email, quantity, price, image));
         }
         cursor.close();
 

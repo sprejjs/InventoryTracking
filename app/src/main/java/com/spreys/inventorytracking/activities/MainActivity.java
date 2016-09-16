@@ -15,7 +15,6 @@ import android.widget.TextView;
 import com.spreys.inventorytracking.IViewHolderClickListener;
 import com.spreys.inventorytracking.R;
 import com.spreys.inventorytracking.data.InventoryDbHelper;
-import com.spreys.inventorytracking.data.MockDataProvider;
 import com.spreys.inventorytracking.data.Product;
 
 import java.util.List;
@@ -94,6 +93,8 @@ public class MainActivity extends AppCompatActivity {
             Product soldProduct = products.get(itemPosition);
             if (soldProduct.sellItem()) {
                 notifyItemChanged(itemPosition);
+                InventoryDbHelper dbHelper = new InventoryDbHelper(context);
+                dbHelper.updateProduct(soldProduct);
             }
         }
 

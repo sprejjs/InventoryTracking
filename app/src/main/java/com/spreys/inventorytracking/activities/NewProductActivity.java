@@ -70,7 +70,7 @@ public class NewProductActivity extends AppCompatActivity {
         int quantity = Integer.valueOf(quantityView.getText().toString());
         String email = emailView.getText().toString();
 
-        Product product = new Product(name, email, quantity, price, selectedImage);
+        Product product = new Product(-1, name, email, quantity, price, selectedImage);
 
         InventoryDbHelper dbHelper = new InventoryDbHelper(this);
         dbHelper.saveNewProduct(product);

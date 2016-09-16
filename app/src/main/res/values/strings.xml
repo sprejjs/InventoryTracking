@@ -5,4 +5,9 @@
     <string name="btn_track_shipment">1 item arrived</string>
     <string name="btn_order_more">Order more from the supplier</string>
     <string name="btn_delete_product">Delete product</string>
+    <string name="hint_product_name">Enter product name</string>
+    <string name="hint_price">Enter price</string>
+    <string name="hint_quantity">Enter quantity</string>
+    <string name="btn_save">Save product</string>
+    <string name="hint_email">Supplier\'s email address</string>
 </resources>

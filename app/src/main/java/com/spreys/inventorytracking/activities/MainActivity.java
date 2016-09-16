@@ -40,6 +40,12 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setAdapter(new ProductsAdapter(MockDataProvider.GetMockData(), this));
     }
 
+    @OnClick(R.id.activity_main_add_product_button)
+    public void addProduct() {
+        Intent intent = new Intent(this, NewProductActivity.class);
+        startActivity(intent);
+    }
+
     class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHolder> implements IViewHolderClickListener {
         private List<Product> products;
         private Context context;

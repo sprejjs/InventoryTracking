@@ -1,12 +1,16 @@
 package com.spreys.inventorytracking.activities;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.spreys.inventorytracking.R;
 import com.spreys.inventorytracking.data.InventoryDbHelper;
@@ -76,7 +80,19 @@ public class DetailsActivity extends AppCompatActivity {
 
     @OnClick(R.id.details_delete)
     public void onDeleteProduct() {
-
+        final Context context = this;
+        new AlertDialog.Builder(this)
+                .setTitle("Confirm deletion")
+                .setMessage("Do you really want to delete the product?")
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        InventoryDbHelper dbHelper = new InventoryDbHelper(context);
+                        dbHelper.deleteProduct(product);
+                        finish();
+                    }})
+                .setNegativeButton(android.R.string.no, null).show();
     }
 
     @OnClick(R.id.details_order)

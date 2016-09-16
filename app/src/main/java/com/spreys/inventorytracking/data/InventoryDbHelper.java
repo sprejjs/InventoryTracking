@@ -110,4 +110,13 @@ public class InventoryDbHelper extends SQLiteOpenHelper {
 
         return db.insert(InventoryContract.ProductEntry.TABLE_NAME, null, values);
     }
+
+    public void deleteProduct(Product product) {
+        SQLiteDatabase db = getWritableDatabase();
+
+        String selection = InventoryContract.ProductEntry._ID + " = ?";
+        String[] selectionArgs = { String.valueOf(product.getId()) };
+
+        db.delete(InventoryContract.ProductEntry.TABLE_NAME, selection, selectionArgs);
+    }
 }

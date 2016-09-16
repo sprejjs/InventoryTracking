@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.spreys.inventorytracking.R;
+import com.spreys.inventorytracking.data.InventoryDbHelper;
 import com.spreys.inventorytracking.data.Product;
 
 import butterknife.BindView;
@@ -56,6 +57,9 @@ public class DetailsActivity extends AppCompatActivity {
         priceView.setText(product.getPriceDescription());
         emailView.setText(product.getSupplierEmailDescription());
         productImageView.setImageBitmap(product.getImage());
+
+        InventoryDbHelper dbHelper = new InventoryDbHelper(this);
+        dbHelper.updateProduct(product);
     }
 
     @OnClick(R.id.details_track_sale)

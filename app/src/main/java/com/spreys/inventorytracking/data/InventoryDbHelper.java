@@ -20,9 +20,9 @@ import java.util.List;
 public class InventoryDbHelper extends SQLiteOpenHelper {
     private static final String TEXT_TYPE = " TEXT";
     private static final String COMMA_SEP = ",";
-    private static final String INTEGER_TYPE = "INTEGER";
+    private static final String INTEGER_TYPE = " INTEGER";
     private static final String DATABASE_NAME = "Inventory.db";
-    private static final String REAL_TYPE = "REAL";
+    private static final String REAL_TYPE = " REAL";
     private static final int DATABASE_VERSION = 1;
 
     private static final String SQL_CREATE_ENTRIES =

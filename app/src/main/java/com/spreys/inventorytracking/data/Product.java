@@ -1,23 +1,30 @@
 package com.spreys.inventorytracking.data;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Base64;
+
+import java.io.ByteArrayOutputStream;
 
 /**
  * Created by vspreys on 9/15/16.
  */
 
 public class Product implements Parcelable {
-    private String name;
-    private String supplierEmail;
+    private final String name;
+    private final String supplierEmail;
     private int quantity;
-    private double price;
+    private final double price;
+    private final String image;
 
-    public Product(String name, String supplierEmail, int quantity, double price) {
+    public Product(String name, String supplierEmail, int quantity, double price, Bitmap image) {
         this.name = name;
         this.supplierEmail = supplierEmail;
         this.quantity = quantity;
         this.price = price;
+        this.image = bitMapToString(image);
     }
 
     public static final Creator<Product> CREATOR = new Creator<Product>() {
@@ -56,6 +63,10 @@ public class Product implements Parcelable {
         return "Price: $" + this.price;
     }
 
+    public Bitmap getImage() {
+        return stringToBitMap(image);
+    }
+
     public boolean sellItem() {
         if (quantity > 0) {
             quantity--;
@@ -75,6 +86,7 @@ public class Product implements Parcelable {
         parcel.writeString(supplierEmail);
         parcel.writeInt(quantity);
         parcel.writeDouble(price);
+        parcel.writeString(image);
     }
 
     private Product(Parcel in) {
@@ -82,9 +94,29 @@ public class Product implements Parcelable {
         this.supplierEmail = in.readString();
         this.quantity = in.readInt();
         this.price = in.readDouble();
+        this.image = in.readString();
     }
 
     public void retrieveItem() {
         quantity ++;
+    }
+
+    private String bitMapToString(Bitmap bitmap) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        byte[] b = baos.toByteArray();
+        return Base64.encodeToString(b, Base64.DEFAULT);
+    }
+
+    private Bitmap stringToBitMap(String encodedString) {
+        try {
+            byte[] encodeByte = Base64.decode(encodedString, Base64.DEFAULT);
+            Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0,
+                    encodeByte.length);
+            return bitmap;
+        } catch (Exception e) {
+            e.getMessage();
+            return null;
+        }
     }
 }

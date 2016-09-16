@@ -3,6 +3,7 @@ package com.spreys.inventorytracking.activities;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.spreys.inventorytracking.R;
@@ -33,6 +34,9 @@ public class DetailsActivity extends AppCompatActivity {
     @BindView(R.id.details_email)
     TextView emailView;
 
+    @BindView(R.id.product_image_view)
+    ImageView productImageView;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +53,7 @@ public class DetailsActivity extends AppCompatActivity {
         quantityView.setText(product.getQuantityDescription());
         priceView.setText(product.getPriceDescription());
         emailView.setText(product.getSupplierEmailDescription());
+        productImageView.setImageBitmap(product.getImage());
     }
 
     @OnClick(R.id.details_track_sale)

@@ -51,6 +51,13 @@
             android:layout_weight="1"
             android:text="@string/btn_track_shipment"/>
     </LinearLayout>
+    
+    <ImageView
+        android:layout_margin="4dp"
+        android:layout_gravity="center"
+        android:id="@+id/product_image_view"
+        android:layout_width="250dp"
+        android:layout_height="250dp" />
 
     <Button
         android:id="@+id/details_order"

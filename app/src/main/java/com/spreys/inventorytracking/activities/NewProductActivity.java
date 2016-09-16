@@ -69,7 +69,7 @@ public class NewProductActivity extends AppCompatActivity {
         int quantity = Integer.valueOf(quantityView.getText().toString());
         String email = emailView.getText().toString();
 
-        Product product = new Product(name, email, quantity, price);
+        Product product = new Product(name, email, quantity, price, selectedImage);
 
         finish();
     }

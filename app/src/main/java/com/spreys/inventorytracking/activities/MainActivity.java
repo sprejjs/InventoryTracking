@@ -55,13 +55,9 @@ public class MainActivity extends AppCompatActivity {
     private void readDataFromDb() {
         InventoryDbHelper dbHelper = new InventoryDbHelper(this);
         List<Product> products = dbHelper.getProducts();
+        recyclerView.setAdapter(new ProductsAdapter(products, this));
 
-        if (!products.isEmpty()) {
-            recyclerView.setAdapter(new ProductsAdapter(products, this));
-            emptyView.setVisibility(GONE);
-        } else {
-            emptyView.setVisibility(View.VISIBLE);
-        }
+        emptyView.setVisibility(products.isEmpty() ? View.VISIBLE : GONE);
     }
 
     @Override
@@ -112,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
         public void onProductSelected(int itemPosition) {
             Intent intent = new Intent(context, DetailsActivity.class);
             intent.putExtra(KEY_PRODUCT, products.get(itemPosition));
-            startActivityForResult(intent, 0);
+            startActivity(intent);
         }
 
         class ViewHolder extends RecyclerView.ViewHolder {

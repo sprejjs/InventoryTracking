@@ -3,6 +3,7 @@ package com.spreys.inventorytracking.activities;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -106,7 +107,8 @@ public class NewProductActivity extends AppCompatActivity {
                     try {
                         Uri selectedImage = imageReturnedIntent.getData();
                         InputStream imageStream = getContentResolver().openInputStream(selectedImage);
-                        this.selectedImage = BitmapFactory.decodeStream(imageStream);
+                        Bitmap largeImage = BitmapFactory.decodeStream(imageStream);
+                        this.selectedImage = getResizedBitmap(largeImage, 250, 250);
                         photoImageView.setImageBitmap(this.selectedImage);
                         onProductInformationChanged();
                     } catch (IOException exception) {
@@ -114,5 +116,22 @@ public class NewProductActivity extends AppCompatActivity {
                     }
                 }
         }
+    }
+
+    public static Bitmap getResizedBitmap(Bitmap bm, int newWidth, int newHeight) {
+        int width = bm.getWidth();
+        int height = bm.getHeight();
+        float scaleWidth = ((float) newWidth) / width;
+        float scaleHeight = ((float) newHeight) / height;
+        // CREATE A MATRIX FOR THE MANIPULATION
+        Matrix matrix = new Matrix();
+        // RESIZE THE BIT MAP
+        matrix.postScale(scaleWidth, scaleHeight);
+
+        // "RECREATE" THE NEW BITMAP
+        Bitmap resizedBitmap = Bitmap.createBitmap(
+                bm, 0, 0, width, height, matrix, false);
+        bm.recycle();
+        return resizedBitmap;
     }
 }

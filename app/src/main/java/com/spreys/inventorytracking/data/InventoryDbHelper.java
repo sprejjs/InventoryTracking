@@ -23,7 +23,7 @@ public class InventoryDbHelper extends SQLiteOpenHelper {
     private static final String INTEGER_TYPE = " INTEGER";
     private static final String DATABASE_NAME = "Inventory.db";
     private static final String REAL_TYPE = " REAL";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
     private static final String SQL_CREATE_ENTRIES =
             "CREATE TABLE " + InventoryContract.ProductEntry.TABLE_NAME + " (" +
@@ -33,6 +33,9 @@ public class InventoryDbHelper extends SQLiteOpenHelper {
                     InventoryContract.ProductEntry.COLUMN_QUANTITY + INTEGER_TYPE + COMMA_SEP +
                     InventoryContract.ProductEntry.COLUMN_PRICE + REAL_TYPE + COMMA_SEP +
                     InventoryContract.ProductEntry.COLUMN_IMAGE + TEXT_TYPE + " )";
+
+    private static final String SQL_DELETE_ENTRIES =
+            "DROP TABLE IF EXISTS " + InventoryContract.ProductEntry.TABLE_NAME;
 
     public InventoryDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -45,8 +48,11 @@ public class InventoryDbHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
-        //This method has been intentionally left empty. There is the first version of the database,
-        //so no upgrade is required
+        SQLiteDatabase db = getWritableDatabase();
+        //Delete the old entries
+        db.execSQL(SQL_DELETE_ENTRIES);
+        //Create the table again
+        db.execSQL(SQL_CREATE_ENTRIES);
     }
 
     public int updateProduct(Product product) {

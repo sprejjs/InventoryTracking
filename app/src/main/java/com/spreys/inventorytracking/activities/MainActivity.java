@@ -23,12 +23,16 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static android.view.View.GONE;
 import static com.spreys.inventorytracking.activities.DetailsActivity.KEY_PRODUCT;
 
 public class MainActivity extends AppCompatActivity {
 
     @BindView(R.id.activity_main_recycler_view)
     RecyclerView recyclerView;
+
+    @BindView(R.id.activity_main_empty_view)
+    TextView emptyView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +55,13 @@ public class MainActivity extends AppCompatActivity {
     private void readDataFromDb() {
         InventoryDbHelper dbHelper = new InventoryDbHelper(this);
         List<Product> products = dbHelper.getProducts();
-        recyclerView.setAdapter(new ProductsAdapter(products, this));
+
+        if (!products.isEmpty()) {
+            recyclerView.setAdapter(new ProductsAdapter(products, this));
+            emptyView.setVisibility(GONE);
+        } else {
+            emptyView.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
